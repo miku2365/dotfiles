@@ -13,10 +13,17 @@ mkdir -p "$XDG_DATA_HOME"
 mkdir -p "$XDG_CACHE_HOME"
 mkdir -p "$XDG_RUNTIME_DIR"
 mkdir -p "$XDG_STATE_HOME"
+echo "设置目录权限..."
+chmod 700 "$XDG_CONFIG_HOME"
+chmod 700 "$XDG_DATA_HOME"
+chmod 700 "$XDG_CACHE_HOME"
+chmod 700 "$XDG_RUNTIME_DIR"
+chmod 700 "$XDG_STATE_HOME"
 
 echo "设置 Bash..."
 HISTFILE="${XDG_STATE_HOME}/bash/history"
 mkdir -p "$(dirname "$HISTFILE")"
+chmod 600 "$HISTFILE"
 cat << 'EOF' >> /root/.bashrc
 
 # 设置 XDG 标准目录变量并使用 typeset -x 导出为环境变量
