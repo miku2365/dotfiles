@@ -1,23 +1,23 @@
 #!/bin/bash
 
-# 设置 XDG 标准目录变量并使用 typeset -x 导出为环境变量
-typeset -x XDG_CONFIG_HOME="$HOME/.config"
-typeset -x XDG_DATA_HOME="$HOME/.local/share"
-typeset -x XDG_CACHE_HOME="$HOME/.cache"
+# 设置 XDG 标准目录
+echo "创建变量..."
+typeset -x XDG_CONFIG_HOME="/root/.config"
+typeset -x XDG_DATA_HOME="/root/.local/share"
+typeset -x XDG_CACHE_HOME="/root/.cache"
 typeset -x XDG_RUNTIME_DIR="/run/user/$(id -u)"
-typeset -x XDG_STATE_HOME="$HOME/.local/state"
-
-# 创建必要的目录
+typeset -x XDG_STATE_HOME="/root/.local/state"
+echo "创建必要的目录..."
 mkdir -p "$XDG_CONFIG_HOME"
 mkdir -p "$XDG_DATA_HOME"
 mkdir -p "$XDG_CACHE_HOME"
 mkdir -p "$XDG_RUNTIME_DIR"
 mkdir -p "$XDG_STATE_HOME"
 
-# 设置 Bash
+echo "设置 Bash..."
 HISTFILE="${XDG_STATE_HOME}/bash/history"
 mkdir -p "$(dirname "$HISTFILE")"
-cat << 'EOF' >> ~/.bashrc
+cat << 'EOF' >> /root/.bashrc
 
 # 设置 XDG 标准目录变量并使用 typeset -x 导出为环境变量
 typeset -x XDG_CONFIG_HOME="$HOME/.config"
@@ -63,14 +63,19 @@ if grep -q "Debian" /etc/os-release; then
     if [[ "$VERSION" == "12" ]]; then
         echo "检测到 Debian 12"
 
-        # 安装必要的软件包
+        # 安装软件包
+        echo "添加 APT 源..."
+        sudo mkdir -p --mode=0755 /usr/share/keyrings
+        curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
+        echo 'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared bookworm main' | sudo tee /etc/apt/sources.list.d/cloudflared.list
+        echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/4/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/shells:fish:release:4.list
+        curl -fsSL https://download.opensuse.org/repositories/shells:fish:release:4/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/shells_fish_release_4.gpg > /dev/null
+      
         echo "更新 APT 包列表..."
-        sudo apt update
+        sudo apt-get update
 
         echo "安装 fish 和 cloudflared..."
-        sudo apt install fish curl -y
-        curl -fsSL --location --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
-        sudo dpkg -i cloudflared.deb
+        sudo apt-get install cloudflared fish -y
         sudo apt-get install -f -y  # 解决依赖关系
     else
         echo "不支持的 Debian 版本: $VERSION"
