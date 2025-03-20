@@ -51,13 +51,13 @@ awk 'NR==FNR && !/^#/{lines[$0]=FNR;next} lines[$0]==FNR' "$HISTFILE" "$HISTFILE
 # 存档历史记录
 umask 077
 max_lines=5000
-linecount=\$(wc -l < ${HISTFILE})
-if ((\$linecount > \$max_lines)); then
+linecount=$(wc -l < "$HISTFILE")
+if (( linecount > max_lines )); then
   echo -e "\e[31m[WARN] \e[33mArchiving History Files\e[0m"
-  prune_lines=\$((\$linecount - \$max_lines))
-  head -\$prune_lines ${HISTFILE} >> ${HISTFILE}.archive \
-    && sed -e "1,\$prune_lines"d  ${HISTFILE} > ${HISTFILE}.tmp\$ \
-    && mv ${HISTFILE}.tmp\$ ${HISTFILE}
+  prune_lines=$(( linecount - max_lines ))
+  head -"$prune_lines" "$HISTFILE" >> "${HISTFILE}.archive" \
+    && sed -e "1,${prune_lines}d" "$HISTFILE" > "${HISTFILE}.tmp" \
+    && mv "${HISTFILE}.tmp" "$HISTFILE"
 fi
 
 
