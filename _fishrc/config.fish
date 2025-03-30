@@ -1,7 +1,6 @@
 ###### .dotfiles/fishrc ######
 
 # vi:ft=fish
-set DISABLE_FZF_AUTO_COMPLETION true
 export TERM="xterm-256color"
 export EDITOR="nvim"
 
