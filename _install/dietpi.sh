@@ -39,6 +39,7 @@ install-linux-packages() {
     echo "  - fd"
     echo "  - fish"
     echo "  - fzf"
+    echo "  - nvim"
     echo "  - ripgrep"
     echo "-----------------------------------------------------------"
 
