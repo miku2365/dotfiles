@@ -236,7 +236,7 @@ setup-fish() {
     echo "-----------------------------------------------------------"
 
     if command -v fish &> /dev/null; then
-    curl -sS https://starship.rs/install.sh | sh
+    curl -sS https://starship.rs/install.sh | sh -f
         fish -c '
             curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source &&
             fisher install jorgebucaran/fisher &&
