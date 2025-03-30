@@ -151,13 +151,13 @@ install-linux-packages() {
         "0.20.24" \
         "aarch64-unknown-linux-gnu" \
         "https://github.com/eza-community/eza/releases/download/v{VERSION}/eza_{ARCH}.tar.gz" \
-        "rg" \
+        "eza" \
         "tar.gz" \
         "mkdir -p /tmp/eza_complete && curl -sL 'https://github.com/eza-community/eza/releases/download/v0.20.24/completions-0.20.24.tar.gz' | sudo tar -xz -C /tmp/eza_complete"
 
     # ripgrep
     install-packages-github \
-        "ripgrep" \
+        "rg" \
         "14.1.1" \
         "aarch64-unknown-linux-gnu" \
         "https://github.com/BurntSushi/ripgrep/releases/download/{VERSION}/ripgrep-{VERSION}-{ARCH}.tar.gz" \
