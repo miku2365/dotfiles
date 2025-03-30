@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 合并网络请求，一次获取所有需要的信息
+# 获取所有需要的信息
 response=$(echo -e "get battery_power_plugged\nget battery" | nc -q 0 127.0.0.1 8423)
 
 # 使用 rg 提取充电状态和电池电量
