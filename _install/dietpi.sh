@@ -163,7 +163,7 @@ install-linux-packages() {
         "https://github.com/BurntSushi/ripgrep/releases/download/{VERSION}/ripgrep-{VERSION}-{ARCH}.tar.gz" \
         "rg" \
         "tar.gz" \
-        "mkdir -p /tmp/rg_complete && cp -r ${temp_dir}/complete /tmp/rg_complete"
+        "mkdir -p /tmp/rg_complete && fd -t f "rg.fish" "${temp_dir}" -x cp {} /tmp/rg_complete"
 }
 
 clone-repo() {
@@ -258,6 +258,7 @@ fi
 EOF
     cp ./dotfiles/_fishrc/config.fish /root/.config/fish/config.fish
     cp ./dotfiles/_fishrc/dietpi.fish /root/.config/fish/conf.d/dietpi.fish
+    cp ./dotfiles/starship/starship.toml /root/.config/
     fd -t f 'eza.fish' /tmp/eza_complete -x cp {} ~/.config/fish/completions/
     fd -t f 'rg.fish' /tmp/rg_complete -x cp {} ~/.config/fish/completions/
     rm -rf /tmp/eza_complete /tmp/rg_complete
@@ -284,7 +285,7 @@ install-nali() {
     echo "                   Installing Nali                         "
     echo ""
     echo "-----------------------------------------------------------"
-    dietpi-software intall 188
+    /boot/dietpi/dietpi-software intall 188
     echo "-----------------------------------------------------------"
     echo "* Install Nali..."
     echo "-----------------------------------------------------------"
