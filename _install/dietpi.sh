@@ -52,17 +52,17 @@ install-linux-packages() {
       "unstable")
         echo "Detected Debian Unstable"
         echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/4/Debian_Unstable/ /' | sudo tee /etc/apt/sources.list.d/shells:fish:release:4.list
-        curl -fsSL https://download.opensuse.org/repositories/shells:/fish:release:4/Debian_Unstable/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/shells_fish_release_4.gpg > /dev/null
+        curl -fsSL https://download.opensuse.org/repositories/shells:fish:release:4/Debian_Unstable/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/shells_fish_release_4.gpg > /dev/null
         ;;
       "bookworm")
         echo "Detected Debian 12 (Bookworm)"
         echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/4/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/shells:fish:release:4.list
-        curl -fsSL https://download.opensuse.org/repositories/shells:/fish:release:/4/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/shells_fish_release_4.gpg > /dev/null
+        curl -fsSL https://download.opensuse.org/repositories/shells:fish:release:4/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/shells_fish_release_4.gpg > /dev/null
         ;;
       "bullseye")
         echo "Detected Debian 11 (Bullseye)"
         echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/4/Debian_11/ /' | sudo tee /etc/apt/sources.list.d/shells:fish:release:4.list
-        curl -fsSL https://download.opensuse.org/repositories/shells:/fish:/release:/4/Debian_11/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/shells_fish_release_4.gpg > /dev/null
+        curl -fsSL https://download.opensuse.org/repositories/shells:fish:release:4/Debian_11/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/shells_fish_release_4.gpg > /dev/null
         ;;
       *)
         echo "Unsupported Debian version: $VERSION_CODENAME"
@@ -93,9 +93,10 @@ install-linux-packages() {
             sudo dpkg -i "$deb_file" || sudo apt-get install -f -y
         elif [ "$file_type" == "tar.gz" ]; then
             echo "Extracting $name..."
-            tar -xz -C "$temp_dir" -f "$deb_file"
+            unar "$deb_file" -o "$temp_dir"
             echo "Copying $name to /usr/local/bin..."
-            sudo cp "${temp_dir}/${name}" /usr/local/bin/
+            #sudo cp "${temp_dir}/${name}" /usr/local/bin/
+            sudo fd -t f "${name}" "${temp_dir}" -x cp {} /usr/local/bin/
             sudo chmod +x /usr/local/bin/"$name"
         else
             echo "Unsupported file type: $file_type"
@@ -140,7 +141,7 @@ install-linux-packages() {
         "fzf" \
         "0.60.3" \
         "linux_arm64" \
-        "https://github.com/junegunn/fzf/releases/download/v{VERSION}/fzf_{VERSION}_{ARCH}.tar.gz" \
+        "https://github.com/junegunn/fzf/releases/download/v{VERSION}/fzf-{VERSION}-{ARCH}.tar.gz" \
         "fzf" \
         "tar.gz"
 
@@ -149,7 +150,7 @@ install-linux-packages() {
         "eza" \
         "0.20.24" \
         "aarch64-unknown-linux-gnu" \
-        "https://github.com/eza-community/eza/releases/download/v{VERSION}/eza_{VERSION}_{ARCH}.tar.gz" \
+        "https://github.com/eza-community/eza/releases/download/v{VERSION}/eza_{ARCH}.tar.gz" \
         "rg" \
         "tar.gz" \
         "mkdir -p /tmp/eza_complete && curl -sL 'https://github.com/eza-community/eza/releases/download/v0.20.24/completions-0.20.24.tar.gz' | sudo tar -xz -C /tmp/eza_complete"
@@ -159,7 +160,7 @@ install-linux-packages() {
         "ripgrep" \
         "14.1.1" \
         "aarch64-unknown-linux-gnu" \
-        "https://github.com/BurntSushi/ripgrep/releases/download/{VERSION}/ripgrep_{VERSION}_{ARCH}.tar.gz" \
+        "https://github.com/BurntSushi/ripgrep/releases/download/{VERSION}/ripgrep-{VERSION}-{ARCH}.tar.gz" \
         "rg" \
         "tar.gz" \
         "mkdir -p /tmp/rg_complete && cp -r ${temp_dir}/complete /tmp/rg_complete"
@@ -273,8 +274,9 @@ install-nodejs() {
         fish -c 'nvm install latest'
         echo "-----------------------------------------------------------"
         echo -n "* NodeJS Version: "
-        fish -c 'node -v'
+        fish -c 'nvm list'
     }
+    install-node
 }
 
 install-nali() {
