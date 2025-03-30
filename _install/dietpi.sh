@@ -164,6 +164,10 @@ install-linux-packages() {
         "rg" \
         "tar.gz" \
         "mkdir -p /tmp/rg_complete && fd -t f "rg.fish" "${temp_dir}" -x cp {} /tmp/rg_complete"
+
+    # nvim
+    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-arm64.tar.gz
+    sudo unar nvim-linux-arm64.tar.gz -o /opt 
 }
 
 clone-repo() {
