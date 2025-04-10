@@ -319,5 +319,5 @@ clone-repo
 setup-bash
 setup-fish
 install-nodejs
-install-nali
+# install-nali
 finish
