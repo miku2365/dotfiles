@@ -70,7 +70,7 @@ install-linux-packages() {
         exit 1
         ;;
     esac
-    sudo apt-get update && sudo apt-get install -y cloudflared fish
+    sudo apt-get update && sudo apt-get install -y cloudflared fish unar
 
     install-packages-github() {
         local name="$1"
@@ -241,7 +241,7 @@ setup-fish() {
     echo "-----------------------------------------------------------"
 
     if command -v fish &> /dev/null; then
-    curl -sS https://starship.rs/install.sh | sh -f
+    curl -sS https://starship.rs/install.sh | sh -s -- -y
         fish -c '
             curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source &&
             fisher install jorgebucaran/fisher &&
