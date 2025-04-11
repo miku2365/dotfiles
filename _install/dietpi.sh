@@ -109,7 +109,7 @@ install-linux-packages() {
             unar "$deb_file" -o "$temp_dir"
             echo "Copying $name to /usr/local/bin..."
             #sudo cp "${temp_dir}/${name}" /usr/local/bin/
-            sudo fd -t f "${name}" "${temp_dir}" -x cp {} /usr/local/bin/
+            sudo fd -t x "${name}" "${temp_dir}" -x cp {} /usr/local/bin/
             sudo chmod +x /usr/local/bin/"$name"
     else
             echo "Unsupported file type: $file_type"
@@ -187,14 +187,14 @@ clone-repo() {
     echo "-----------------------------------------------------------"
     echo "* Cloning dotfiles Repo from GitHub.com"
     echo "-----------------------------------------------------------"
-    git clone https://github.com/miku2365/dotfiles.git
-    rm -rf ./dotfiles/.git
+    git clone https://github.com/miku2365/dotfiles.git /root/dotfiles
 }
 
 setup-bash() {
     echo "==========================================================="
     echo "                      Bash Setup"
     echo "-----------------------------------------------------------"
+    export XDG_DATA_HOME="/root/.local/share"
     HISTFILE="${XDG_DATA_HOME}/bash/history"
     echo "HISTFILE path: $HISTFILE"
     DIRNAME=$(dirname "$HISTFILE")
@@ -297,9 +297,9 @@ then
 fi
 
 EOF
-    cp ./dotfiles/_fishrc/config.fish /root/.config/fish/config.fish
-    cp ./dotfiles/_fishrc/dietpi.fish /root/.config/fish/conf.d/dietpi.fish
-    cp ./dotfiles/starship/starship.toml /root/.config/
+    cp /root/dotfiles/_fishrc/config.fish /root/.config/fish/config.fish
+    cp /root/dotfiles/_fishrc/dietpi.fish /root/.config/fish/conf.d/dietpi.fish
+    cp /root/dotfiles/starship/starship.toml /root/.config/
     fd -t f 'eza.fish' /tmp/eza_complete -x cp {} ~/.config/fish/completions/
     fd -t f 'rg.fish' /tmp/rg_complete -x cp {} ~/.config/fish/completions/
     rm -rf /tmp/eza_complete /tmp/rg_complete
