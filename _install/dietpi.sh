@@ -152,7 +152,7 @@ install-linux-packages() {
     # fzf
     install-packages-github \
         "fzf" \
-        "0.60.3" \
+        "0.61.1" \
         "linux_arm64" \
         "https://github.com/junegunn/fzf/releases/download/v{VERSION}/fzf-{VERSION}-{ARCH}.tar.gz" \
         "fzf" \
@@ -161,12 +161,12 @@ install-linux-packages() {
     # eza
     install-packages-github \
         "eza" \
-        "0.20.24" \
+        "0.21.0" \
         "aarch64-unknown-linux-gnu" \
         "https://github.com/eza-community/eza/releases/download/v{VERSION}/eza_{ARCH}.tar.gz" \
         "eza" \
         "tar.gz" \
-        "mkdir -p /tmp/eza_complete && curl -sL 'https://github.com/eza-community/eza/releases/download/v0.20.24/completions-0.20.24.tar.gz' | sudo tar -xz -C /tmp/eza_complete"
+        "mkdir -p /tmp/eza_complete && curl -sL 'https://github.com/eza-community/eza/releases/download/v0.21.0/completions-0.21.0.tar.gz' | sudo tar -xz -C /tmp/eza_complete"
 
     # ripgrep
     install-packages-github \
