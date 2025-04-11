@@ -176,7 +176,7 @@ install-linux-packages() {
         "https://github.com/BurntSushi/ripgrep/releases/download/{VERSION}/ripgrep-{VERSION}-{ARCH}.tar.gz" \
         "rg" \
         "tar.gz" \
-        "mkdir -p /tmp/rg_complete && fd -t f "rg.fish" "${temp_dir}" -x cp {} /tmp/rg_complete/"
+        "mkdir -p /tmp/rg_complete && fd -t f "rg.fish" "/tmp/" -x cp {} /tmp/rg_complete/"
 
     # nvim
     curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-arm64.tar.gz
